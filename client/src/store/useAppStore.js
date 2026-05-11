@@ -2,8 +2,9 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
-const API_URL = 'http://localhost:5000/api';
-const socket = io('http://localhost:5000');
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = `${BASE_URL}/api`;
+const socket = io(BASE_URL);
 
 const useAppStore = create((set, get) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,

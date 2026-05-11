@@ -262,7 +262,7 @@ const SelfOrdering = () => {
                    {/* Image area */}
                    <div className="w-full aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center text-4xl relative overflow-hidden">
                       {product.image ? (
-                        <img src={`http://localhost:5000${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                       ) : (
                         <span>{getCategoryEmoji(product.category)}</span>
                       )}

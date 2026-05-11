@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useAppStore from '../../store/useAppStore';
 import { Plus, Search, Edit2, Trash2, X, Check, Package as PackageIcon, Upload, Image as ImageIcon } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Products = () => {
   const { products, fetchProducts, createProduct, updateProduct, deleteProduct } = useAppStore();

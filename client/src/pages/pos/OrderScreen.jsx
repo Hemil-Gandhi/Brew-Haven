@@ -166,7 +166,7 @@ const OrderScreen = () => {
             >
               <div className="w-full aspect-square bg-slate-50 rounded-2xl flex items-center justify-center mb-4 overflow-hidden">
                  {product.image ? (
-                   <img src={`http://localhost:5000${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                   <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                  ) : (
                    <span className="text-4xl">{({'Coffee':'☕','Pastry':'🥐','Mains':'🍽️','Drinks':'🥤'})[product.category] || '🍴'}</span>
                  )}

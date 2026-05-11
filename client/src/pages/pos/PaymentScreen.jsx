@@ -30,7 +30,8 @@ const PaymentScreen = () => {
     const fetchOrder = async () => {
       if (orderId === 'new') { setLoadingOrder(false); return; }
       try {
-        const res = await fetch(`http://localhost:5000/api/orders/${orderId}`);
+        const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const res = await fetch(`${API_BASE}/api/orders/${orderId}`);
         if (res.ok) {
           const data = await res.json();
           setOrder(data);
