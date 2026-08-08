@@ -44,24 +44,24 @@ const CustomerOrderType = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <button 
               onClick={() => navigate('/customer/tables')}
-              className="flex flex-col items-center justify-center p-16 bg-white/5 border border-white/10 rounded-[3rem] hover:bg-white/10 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(180,143,96,0.2)] active:scale-95"
+              className="flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-white/5 border border-white/10 rounded-[2rem] sm:rounded-[3rem] hover:bg-white/10 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(180,143,96,0.2)] active:scale-95"
             >
-               <div className="w-28 h-28 bg-slate-800 group-hover:bg-primary rounded-[2rem] flex items-center justify-center mb-8 transition-colors duration-300 shadow-xl border border-white/10">
-                  <Utensils className="w-12 h-12 text-white" />
+               <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 bg-slate-800 group-hover:bg-primary rounded-[1.5rem] sm:rounded-[2rem] flex items-center justify-center mb-4 sm:mb-6 lg:mb-8 transition-colors duration-300 shadow-xl border border-white/10">
+                  <Utensils className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white" />
                </div>
-               <h3 className="text-4xl font-black text-white mb-4 tracking-tighter">Dine-In</h3>
-               <p className="text-slate-400 text-center font-medium text-lg leading-relaxed">Relax and enjoy your meal at one of our comfortable tables.</p>
+               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-4 tracking-tighter">Dine-In</h3>
+               <p className="text-slate-400 text-center font-medium text-sm sm:text-base lg:text-lg leading-relaxed">Relax and enjoy your meal at one of our comfortable tables.</p>
             </button>
 
             <button 
               onClick={() => navigate('/self-ordering/takeaway')}
-              className="flex flex-col items-center justify-center p-16 bg-white/5 border border-white/10 rounded-[3rem] hover:bg-white/10 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(180,143,96,0.2)] active:scale-95"
+              className="flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-white/5 border border-white/10 rounded-[2rem] sm:rounded-[3rem] hover:bg-white/10 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(180,143,96,0.2)] active:scale-95"
             >
-               <div className="w-28 h-28 bg-slate-800 group-hover:bg-primary rounded-[2rem] flex items-center justify-center mb-8 transition-colors duration-300 shadow-xl border border-white/10">
-                  <ShoppingBag className="w-12 h-12 text-white" />
+               <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 bg-slate-800 group-hover:bg-primary rounded-[1.5rem] sm:rounded-[2rem] flex items-center justify-center mb-4 sm:mb-6 lg:mb-8 transition-colors duration-300 shadow-xl border border-white/10">
+                  <ShoppingBag className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white" />
                </div>
-               <h3 className="text-4xl font-black text-white mb-4 tracking-tighter">Takeaway</h3>
-               <p className="text-slate-400 text-center font-medium text-lg leading-relaxed">Grab your freshly prepared order to go. Skip the table selection.</p>
+               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-4 tracking-tighter">Takeaway</h3>
+               <p className="text-slate-400 text-center font-medium text-sm sm:text-base lg:text-lg leading-relaxed">Grab your freshly prepared order to go. Skip the table selection.</p>
             </button>
           </div>
         </div>

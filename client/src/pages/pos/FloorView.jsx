@@ -33,13 +33,13 @@ const FloorView = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* POS Top Nav */}
-      <header className="bg-secondary-dark text-slate-100 p-4 flex items-center justify-between shadow-2xl relative z-10 border-b border-white/5">
-        <div className="flex items-center space-x-6">
-          <div className="flex items-center space-x-3">
-            <img src="/brew_haven_logo.png" alt="Brew Haven" className="w-10 h-10 rounded-lg object-contain bg-white/10 p-0.5" />
-            <h1 className="text-2xl font-black uppercase tracking-widest text-primary-light">Brew Haven</h1>
+      <header className="bg-secondary-dark text-slate-100 p-3 sm:p-4 flex items-center justify-between shadow-2xl relative z-10 border-b border-white/5">
+        <div className="flex items-center space-x-3 sm:space-x-6">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <img src="/brew_haven_logo.png" alt="Brew Haven" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-contain bg-white/10 p-0.5" />
+            <h1 className="text-lg sm:text-2xl font-black uppercase tracking-widest text-primary-light hidden sm:block">Brew Haven</h1>
           </div>
-          <div className="flex space-x-1 p-1 bg-white/5 rounded-xl border border-white/10">
+          <div className="hidden lg:flex space-x-1 p-1 bg-white/5 rounded-xl border border-white/10">
              <button className="px-5 py-2 bg-white/10 rounded-lg text-sm font-bold flex items-center space-x-2 text-white shadow-lg">
                 <Layers className="w-4 h-4" />
                 <span>Floor Plan</span>
@@ -47,26 +47,30 @@ const FloorView = () => {
           </div>
         </div>
         
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10">
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="hidden sm:flex items-center space-x-2 px-3 sm:px-4 py-2 bg-white/5 rounded-xl border border-white/10">
              <Clock className="w-4 h-4 text-primary-light" />
-             <span className="text-sm font-medium">{activeSession ? 'Session Active' : 'No Session'}</span>
+             <span className="text-xs sm:text-sm font-medium">{activeSession ? 'Session Active' : 'No Session'}</span>
+          </div>
+          {/* Mobile session indicator */}
+          <div className="sm:hidden">
+            <div className={`w-3 h-3 rounded-full ${activeSession ? 'bg-emerald-500' : 'bg-slate-500'}`} title={activeSession ? 'Session Active' : 'No Session'} />
           </div>
           {user?.role === 'admin' && (
             <button 
               onClick={() => navigate('/backend')}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all flex items-center gap-2"
+              className="p-2 sm:px-4 sm:py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all flex items-center gap-2"
             >
               <Settings className="w-4 h-4" />
-              Backend
+              <span className="hidden sm:inline">Backend</span>
             </button>
           )}
           <button 
             onClick={() => navigate('/kitchen')}
-            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all flex items-center gap-2"
+            className="p-2 sm:px-4 sm:py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all flex items-center gap-2"
           >
             <ChefHat className="w-4 h-4" />
-            Kitchen
+            <span className="hidden sm:inline">Kitchen</span>
           </button>
           <button 
             onClick={logout}
@@ -79,37 +83,37 @@ const FloorView = () => {
       </header>
 
       {/* Floor Selector */}
-      <div className="p-8 flex-1">
+      <div className="p-4 sm:p-6 lg:p-8 flex-1">
         {floors.map((floor) => (
-          <div key={floor._id} className="mb-12 animate-slide-up">
-            <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center space-x-3">
+          <div key={floor._id} className="mb-8 sm:mb-12 animate-slide-up">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 sm:mb-6 flex items-center space-x-3">
                <span className="w-2 h-8 bg-primary rounded-full"></span>
                <span>{floor.name}</span>
             </h2>
             
-            <div className="flex flex-wrap gap-8 items-center justify-center lg:justify-start lg:pl-10">
+            <div className="flex flex-wrap gap-4 sm:gap-6 lg:gap-8 items-center justify-center lg:justify-start lg:pl-10">
               {tables.filter(t => t.floorId?._id === floor._id || t.floorId === floor._id).map((table) => (
                 <button
                   key={table._id}
                   onClick={() => handleTableClick(table)}
-                  className={`relative w-40 h-40 rounded-full border-2 transition-all duration-300 group flex flex-col items-center justify-center space-y-2 ${getTableStatusColor(table.status)}`}
+                  className={`relative w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full border-2 transition-all duration-300 group flex flex-col items-center justify-center space-y-1 sm:space-y-2 ${getTableStatusColor(table.status)}`}
                 >
-                  <div className={`p-3 rounded-full transition-all ${
+                  <div className={`p-2 sm:p-3 rounded-full transition-all ${
                     table.status === 'Occupied' ? 'bg-white text-emerald-500 shadow-sm' : 
                     table.status === 'Reserved' ? 'bg-amber-900/10 text-amber-900' :
                     'bg-slate-100/50 text-slate-400 group-hover:bg-primary/10 group-hover:text-primary'
                   }`}>
-                    <Coffee className="w-6 h-6" />
+                    <Coffee className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   
-                  <div className="text-center mt-1">
-                    <p className={`text-2xl font-black ${table.status === 'Occupied' ? 'text-white' : ''}`}>{table.number}</p>
+                  <div className="text-center mt-0.5 sm:mt-1">
+                    <p className={`text-xl sm:text-2xl font-black ${table.status === 'Occupied' ? 'text-white' : ''}`}>{table.number}</p>
                   </div>
 
-                  {/* Seat indicators (Dots around or below) */}
-                  <div className="flex items-center space-x-1.5 opacity-60">
+                  {/* Seat indicators */}
+                  <div className="flex items-center space-x-1 sm:space-x-1.5 opacity-60">
                     {[...Array(table.seats || 2)].map((_, i) => (
-                       <div key={i} className={`w-2 h-2 rounded-full ${table.status === 'Occupied' ? 'bg-white' : table.status === 'Reserved' ? 'bg-amber-900' : 'bg-slate-300'} shadow-sm`}></div>
+                       <div key={i} className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${table.status === 'Occupied' ? 'bg-white' : table.status === 'Reserved' ? 'bg-amber-900' : 'bg-slate-300'} shadow-sm`}></div>
                     ))}
                   </div>
 

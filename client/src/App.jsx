@@ -14,6 +14,7 @@ import CustomerDisplay from './pages/customer/CustomerDisplay';
 import CustomerOrderType from './pages/customer/CustomerOrderType';
 import CustomerTableSelect from './pages/customer/CustomerTableSelect';
 import SelfOrdering from './pages/pos/SelfOrdering';
+import BillPage from './pages/bill/BillPage';
 
 const AdminRoute = ({ children }) => {
   const { token, user } = useAppStore();
@@ -30,7 +31,7 @@ const StaffRoute = ({ children }) => {
 };
 
 const CustomerRoute = ({ children }) => {
-  const { token, user } = useAppStore();
+  const { token } = useAppStore();
   if (!token) return <Navigate to="/login" />;
   return children;
 };
@@ -108,6 +109,12 @@ function App() {
         <Route path="/self-ordering/takeaway" element={
           <CustomerRoute>
             <SelfOrdering />
+          </CustomerRoute>
+        } />
+        
+        <Route path="/bill/:orderId" element={
+          <CustomerRoute>
+            <BillPage />
           </CustomerRoute>
         } />
         

@@ -94,7 +94,8 @@ const Sessions = () => {
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-slate-800">Session History</h3>
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <table className="w-full text-left">
+          <div className="overflow-x-auto">
+          <table className="w-full text-left min-w-[600px]">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase">Session Info</th>
@@ -139,6 +140,7 @@ const Sessions = () => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 

@@ -102,6 +102,33 @@ body {
   animation: pulse-subtle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Ensure minimum touch targets on mobile */
+@media (max-width: 640px) {
+  button, a, [role="button"] {
+    min-height: 36px;
+  }
+}
+
+/* ===== PAGE SIZES (named pages for receipt vs bill) ===== */
+@page receipt-page {
+  margin: 0;
+  size: 80mm auto;
+}
+
+@page bill-page {
+  size: A4;
+  margin: 8mm;
+}
+
 /* ===== PROFESSIONAL RECEIPT PRINT STYLES ===== */
 @media print {
   /* Hide absolutely everything on screen */
@@ -125,10 +152,32 @@ body {
     font-size: 11px !important;
     padding: 8mm !important;
     box-shadow: none !important;
+    page: receipt-page;
   }
+}
 
-  @page {
-    margin: 0;
-    size: 80mm auto;
+/* ===== PREMIUM BILL PRINT STYLES ===== */
+@media print {
+  body.print-bill-mode * {
+    visibility: hidden !important;
+  }
+  body.print-bill-mode .bill-paper,
+  body.print-bill-mode .bill-paper * {
+    visibility: visible !important;
+  }
+  body.print-bill-mode .bill-paper {
+    position: fixed !important;
+    inset: 0 !important;
+    display: block !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+    width: 100% !important;
+    max-height: none !important;
+    page: bill-page;
+  }
+  body.print-bill-mode {
+    background: #fff !important;
   }
 }

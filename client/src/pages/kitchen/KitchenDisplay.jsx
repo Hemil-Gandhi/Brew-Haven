@@ -113,32 +113,45 @@ const KitchenDisplay = () => {
   return (
     <div className="h-screen bg-slate-900 flex flex-col text-slate-100 overflow-hidden font-sans">
       {/* Redesigned Navbar */}
-      <header className="px-6 py-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between shadow-2xl relative z-10">
-        <div className="flex items-center space-x-4">
-           <button 
-             onClick={() => navigate('/backend')}
-             className="p-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl transition-all border border-slate-600 text-white shadow-lg"
-             title="Back to Dashboard"
-           >
-             <ArrowLeft className="w-6 h-6" />
-           </button>
-           <img src="/brew_haven_logo.png" alt="Brew Haven" className="w-12 h-12 rounded-2xl object-contain bg-white/10 p-0.5 shadow-lg shadow-primary/30" />
-           <div>
-              <h1 className="text-xl font-black tracking-tighter leading-none text-white">Kitchen Display System</h1>
-              <div className="flex items-center space-x-2 mt-1">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Live Sync Active</p>
-              </div>
-           </div>
+      <header className="px-3 sm:px-6 py-3 sm:py-4 bg-slate-800 border-b border-slate-700 shadow-2xl relative z-10">
+        <div className="flex items-center justify-between mb-3 sm:mb-0">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+             <button 
+               onClick={() => navigate('/backend')}
+               className="p-2 sm:p-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl transition-all border border-slate-600 text-white shadow-lg"
+               title="Back to Dashboard"
+             >
+               <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+             </button>
+             <img src="/brew_haven_logo.png" alt="Brew Haven" className="w-9 h-9 sm:w-12 sm:h-12 rounded-2xl object-contain bg-white/10 p-0.5 shadow-lg shadow-primary/30" />
+             <div>
+                <h1 className="text-sm sm:text-xl font-black tracking-tighter leading-none text-white">Kitchen Display</h1>
+                <div className="flex items-center space-x-2 mt-0.5 sm:mt-1">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                  <p className="text-[9px] sm:text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Live Sync</p>
+                </div>
+             </div>
+          </div>
+
+          <div className="flex items-center space-x-2 sm:space-x-4">
+             <div className="hidden sm:flex flex-col items-end mr-2 sm:mr-4">
+               <span className="text-xs sm:text-sm font-bold text-slate-300">{now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}</span>
+               <span className="text-[10px] sm:text-xs text-slate-500 font-black tracking-widest">{now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+             </div>
+             <button onClick={handleLogout} className="flex items-center space-x-2 p-2 sm:px-4 sm:py-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl transition-all border border-slate-600 text-sm font-bold text-white">
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+             </button>
+          </div>
         </div>
 
-        {/* Filter Toggle Group */}
-        <div className="flex items-center bg-slate-900/50 p-1 rounded-xl border border-slate-700">
+        {/* Filter Toggle Group - scrollable on mobile */}
+        <div className="flex items-center bg-slate-900/50 p-1 rounded-xl border border-slate-700 overflow-x-auto no-scrollbar">
           {['All', 'Dine-in', 'Self-order', 'Takeaway'].map(type => (
             <button
               key={type}
               onClick={() => setFilterType(type)}
-              className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
+              className={`px-4 sm:px-6 py-2 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                 filterType === type 
                 ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-[1.02]' 
                 : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -148,23 +161,12 @@ const KitchenDisplay = () => {
             </button>
           ))}
         </div>
-
-        <div className="flex items-center space-x-4">
-           <div className="flex flex-col items-end mr-4">
-             <span className="text-sm font-bold text-slate-300">{now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}</span>
-             <span className="text-xs text-slate-500 font-black tracking-widest">{now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
-           </div>
-           <button onClick={handleLogout} className="flex items-center space-x-2 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl transition-all border border-slate-600 text-sm font-bold text-white">
-              <LogOut className="w-4 h-4" />
-              <span>Sign Out</span>
-           </button>
-        </div>
       </header>
 
       {/* Main Board */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden flex p-6 gap-6 scrollbar-dark">
+      <div className="flex-1 overflow-x-auto overflow-y-auto sm:overflow-y-hidden flex flex-col sm:flex-row p-3 sm:p-6 gap-4 sm:gap-6 scrollbar-dark">
         {['To Cook', 'Preparing', 'Completed'].map((stage, idx) => (
-          <div key={stage} className="flex-1 min-w-[400px] bg-slate-800/40 rounded-[2.5rem] border border-slate-700/50 p-6 flex flex-col shadow-inner">
+          <div key={stage} className="sm:flex-1 min-w-0 sm:min-w-[320px] lg:min-w-[400px] bg-slate-800/40 rounded-2xl sm:rounded-[2.5rem] border border-slate-700/50 p-4 sm:p-6 flex flex-col shadow-inner">
             <div className="flex items-center justify-between mb-8 px-2">
                <div className="flex items-center space-x-3">
                   <span className={`w-3 h-3 rounded-full ${

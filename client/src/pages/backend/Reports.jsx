@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAppStore from '../../store/useAppStore';
-import { BarChart3, Download, FileText, Filter, Calendar as CalendarIcon, DownloadCloud } from 'lucide-react';
+import { BarChart3, Download, FileText, Filter, Calendar as CalendarIcon, DownloadCloud, Eye } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
+import ReceiptModal from '../../components/ReceiptModal';
 
 const Reports = () => {
   const { orders, fetchOrders } = useAppStore();
+  const navigate = useNavigate();
   const [filterType, setFilterType] = useState('All Types');
+  const [receiptOrder, setReceiptOrder] = useState(null);
   
   useEffect(() => {
     fetchOrders();
@@ -140,12 +144,13 @@ const Reports = () => {
                 <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Type</th>
                 <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">Amount</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredOrders.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center text-slate-400 font-medium">
+                  <td colSpan="7" className="px-6 py-12 text-center text-slate-400 font-medium">
                     No orders found{filterType !== 'All Types' ? ` for "${filterType}"` : ''}.
                   </td>
                 </tr>
@@ -172,12 +177,39 @@ const Reports = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm font-bold text-slate-800 text-right">₹{order.totalAmount.toFixed(2)}</td>
+                  <td className="px-6 py-4 text-center">
+                    <button
+                      onClick={() => setReceiptOrder(order)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-xs font-bold transition-all active:scale-95"
+                      title="View Receipt"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      Receipt
+                    </button>
+                    <button
+                      onClick={() => navigate(`/bill/${order._id}`)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
+                      title="Generate / View Bill"
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      Bill
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Receipt Modal */}
+      {receiptOrder && (
+        <ReceiptModal
+          order={receiptOrder}
+          isModal={true}
+          onClose={() => setReceiptOrder(null)}
+        />
+      )}
     </div>
   );
 };

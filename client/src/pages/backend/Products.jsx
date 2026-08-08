@@ -126,7 +126,8 @@ const Products = () => {
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <table className="w-full text-left">
+        <div className="overflow-x-auto">
+        <table className="w-full text-left min-w-[700px]">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
               <th className="px-6 py-4 text-sm font-semibold text-slate-600">Product</th>
@@ -194,6 +195,7 @@ const Products = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Product Modal */}

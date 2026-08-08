@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import ReceiptModal from '../../components/ReceiptModal';
 import useAppStore from '../../store/useAppStore';
 import { 
   ShoppingBag, 
@@ -10,13 +12,15 @@ import {
   CheckCircle,
   X,
   LogOut,
+  Printer,
   Coffee,
   ChevronRight,
   Trash2,
   Wallet,
   QrCode,
   CreditCard,
-  ArrowLeft
+  ArrowLeft,
+  FileText
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -35,7 +39,6 @@ const SelfOrdering = () => {
     updateCartQty,
     removeFromCart, 
     createOrder,
-    user,
     logout
   } = useAppStore();
 
@@ -49,7 +52,6 @@ const SelfOrdering = () => {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [activeOrderId, setActiveOrderId] = useState(null);
   const [showReadyNotif, setShowReadyNotif] = useState(false);
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -58,13 +60,14 @@ const SelfOrdering = () => {
   }, [fetchProducts, fetchTables, fetchOrders]);
 
   const currentOrder = activeOrderId ? orders.find(o => o._id === activeOrderId) : null;
+  const notifiedReady = useRef(false);
 
   useEffect(() => {
-    if (currentOrder && currentOrder.status === 'Completed' && !isReady) {
-      setIsReady(true);
+    if (currentOrder && currentOrder.status === 'Completed' && !notifiedReady.current) {
+      notifiedReady.current = true;
       setShowReadyNotif(true);
     }
-  }, [currentOrder, isReady]);
+  }, [currentOrder]);
 
   const isTakeaway = !tableId || tableId === 'takeaway';
   const table = tables.find(t => t.number === tableId || t._id === tableId);
@@ -115,6 +118,7 @@ const SelfOrdering = () => {
       setShowCart(false);
       setShowPayment(false);
     } catch (err) {
+      void err;
       alert('Order failed. Please try again.');
     } finally {
       setLoading(false);
@@ -135,6 +139,8 @@ const SelfOrdering = () => {
   if (orderComplete) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center p-6 text-center text-white">
+         {/* Hidden receipt for printing */}
+         {currentOrder && <ReceiptModal order={currentOrder} />}
          <div className="animate-slide-up max-w-sm w-full">
             <div className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8 backdrop-blur-sm border border-white/30 shadow-2xl">
               <CheckCircle className="w-16 h-16 drop-shadow-lg" />
@@ -160,8 +166,27 @@ const SelfOrdering = () => {
                Order More Items
               </button>
               <button 
+                onClick={() => {
+                  const el = document.getElementById('print-receipt');
+                  if (el) { el.style.display = 'block'; window.print(); el.style.display = 'none'; }
+                }}
+                className="w-full px-8 py-4 bg-white/20 text-white rounded-2xl font-bold border border-white/30 active:scale-95 transition-all flex items-center justify-center gap-2 hover:bg-white/30"
+              >
+                <Printer className="w-5 h-5" />
+                Print Receipt
+              </button>
+              {currentOrder && (
+                <button 
+                  onClick={() => navigate(`/bill/${currentOrder._id}`)}
+                  className="w-full px-8 py-4 bg-white text-emerald-700 rounded-2xl font-black shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <FileText className="w-5 h-5" />
+                  View / Download Full Bill
+                </button>
+              )}
+              <button 
                 onClick={handleLogout}
-                className="w-full px-8 py-4 bg-white/20 text-white rounded-2xl font-bold border border-white/30 active:scale-95 transition-all flex items-center justify-center gap-2"
+                className="w-full px-8 py-4 bg-white/10 text-white/80 rounded-2xl font-bold border border-white/20 active:scale-95 transition-all flex items-center justify-center gap-2 hover:bg-white/20"
               >
                 <LogOut className="w-4 h-4" /> Sign Out
               </button>

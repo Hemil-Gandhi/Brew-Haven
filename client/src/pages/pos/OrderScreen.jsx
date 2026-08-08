@@ -110,24 +110,36 @@ const OrderScreen = () => {
     }
   };
 
+  const [showMobileCart, setShowMobileCart] = useState(false);
+
   return (
     <div className="h-screen bg-slate-50 flex flex-col md:flex-row overflow-hidden">
       {/* Product Selection (Left/Main) */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="bg-secondary-dark border-b border-white/5 p-4 flex items-center space-x-4 text-slate-100 shadow-xl relative z-10">
+        <header className="bg-secondary-dark border-b border-white/5 p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 text-slate-100 shadow-xl relative z-10">
           <button 
             onClick={() => navigate('/pos/floor')}
             className="p-2 hover:bg-white/10 rounded-full transition-all"
           >
-            <ArrowLeft className="w-6 h-6 text-slate-200" />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-slate-200" />
           </button>
-          <div className="flex-1 flex flex-col">
-            <h2 className="text-xl font-black text-white">
+          <div className="flex-1 flex flex-col min-w-0">
+            <h2 className="text-lg sm:text-xl font-black text-white truncate">
                Table {table?.number || '...'}
             </h2>
-            <p className="text-xs text-primary font-bold uppercase tracking-wider">Taking New Order</p>
+            <p className="text-[10px] sm:text-xs text-primary font-bold uppercase tracking-wider">Taking New Order</p>
           </div>
-          <div className="relative w-64">
+          {/* Mobile cart button */}
+          <button
+            onClick={() => setShowMobileCart(true)}
+            className="md:hidden relative p-2.5 bg-white/10 rounded-xl border border-white/10"
+          >
+            <ShoppingCart className="w-5 h-5 text-white" />
+            {cart.length > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-secondary-dark">{cart.length}</span>
+            )}
+          </button>
+          <div className="relative w-40 sm:w-64 hidden sm:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               type="text"
@@ -157,7 +169,7 @@ const OrderScreen = () => {
         </div>
 
         {/* Product Grid */}
-        <div className="flex-1 overflow-y-auto p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
           {filteredProducts.map(product => (
             <button
               key={product._id}
@@ -184,8 +196,8 @@ const OrderScreen = () => {
         </div>
       </div>
 
-      {/* Cart (Right Sidebar) */}
-      <div className="w-full md:w-96 bg-white border-l border-slate-200 flex flex-col shadow-2xl z-10">
+      {/* Cart (Right Sidebar - Desktop) */}
+      <div className="hidden md:flex w-96 bg-white border-l border-slate-200 flex-col shadow-2xl z-10">
         <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white">
           <div className="flex items-center space-x-3">
              <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
@@ -280,6 +292,70 @@ const OrderScreen = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Cart Drawer */}
+      {showMobileCart && (
+        <div className="fixed inset-0 z-[90] md:hidden flex flex-col justify-end">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowMobileCart(false)} />
+          <div className="relative bg-white rounded-t-3xl shadow-2xl z-10 max-h-[85vh] flex flex-col animate-slide-up">
+            <div className="flex justify-center pt-3 pb-1"><div className="w-12 h-1 bg-slate-200 rounded-full" /></div>
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white rounded-t-3xl">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                  <ShoppingCart className="w-5 h-5 text-primary-light" />
+                </div>
+                <h3 className="text-xl font-bold">Your Cart</h3>
+              </div>
+              <button onClick={() => setShowMobileCart(false)} className="p-2 hover:bg-white/10 rounded-lg">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              {cart.map((item, idx) => (
+                <div key={`${item._id}-${item.variant}-${idx}`} className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex-1 pr-2">
+                      <p className="font-bold text-slate-800 text-sm">{item.name}</p>
+                      {item.variant && <p className="text-[10px] font-black text-primary uppercase mt-0.5 tracking-widest">{item.variant}</p>}
+                      <p className="text-xs font-bold text-slate-500 mt-0.5">₹{item.price.toFixed(2)} ea</p>
+                    </div>
+                    <button onClick={() => removeFromCart(item._id, item.variant)} className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center bg-white rounded-xl border border-slate-200 p-1">
+                      <button onClick={() => updateCartQty(item._id, item.variant, -1)} className="p-1.5 rounded-lg text-slate-600"><Minus className="w-3 h-3" /></button>
+                      <span className="w-7 text-center font-black text-slate-800 text-sm">{item.quantity}</span>
+                      <button onClick={() => updateCartQty(item._id, item.variant, 1)} className="p-1.5 rounded-lg text-slate-600"><Plus className="w-3 h-3" /></button>
+                    </div>
+                    <p className="font-black text-slate-800">₹{(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                </div>
+              ))}
+              {cart.length === 0 && (
+                <div className="flex flex-col items-center justify-center text-slate-300 py-8">
+                  <ShoppingCart className="w-12 h-12 mb-3 opacity-10" />
+                  <p className="font-bold text-sm">Cart is empty</p>
+                </div>
+              )}
+            </div>
+            <div className="p-4 border-t border-slate-100 bg-slate-50">
+              <div className="flex justify-between text-xl font-black text-slate-900 mb-4">
+                <span>Total</span><span>₹{cartTotal.toFixed(2)}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => { setShowMobileCart(false); handleSendToKitchen(); }} disabled={cart.length === 0} className="flex flex-col items-center justify-center p-3 rounded-2xl bg-slate-900 text-white font-bold disabled:opacity-50 active:scale-95">
+                  <Send className="w-5 h-5 mb-1" /><span className="text-[10px] uppercase">To Kitchen</span>
+                </button>
+                <button onClick={() => { setShowMobileCart(false); handleCheckout(); }} disabled={cart.length === 0} className="flex flex-col items-center justify-center p-3 rounded-2xl bg-primary text-white font-bold disabled:opacity-50 active:scale-95 shadow-lg shadow-primary/20">
+                  <CreditCard className="w-5 h-5 mb-1" /><span className="text-[10px] uppercase">Checkout</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Variant Modal */}
       {selectedProduct && (
