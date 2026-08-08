@@ -10,10 +10,10 @@ import { X, Printer } from 'lucide-react';
  * @param {string}   selectedMethod - Override for payment method display (used by PaymentScreen for pre-confirmation)
  * @param {number}   amountTendered - Cash tendered amount (optional, for cash change display)
  */
-const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountTendered }) => {
+const ReceiptContent = ({ order, isModal, selectedMethod, amountTendered }) => {
   if (!order) return null;
 
-  const orderDate = new Date(order.createdAt || Date.now());
+  const orderDate = new Date(order.createdAt);
   const receiptDate = orderDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
   const receiptTime = orderDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
   const subtotal = order.items?.reduce((s, i) => s + i.price * i.quantity, 0) || 0;
@@ -21,18 +21,8 @@ const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountT
   const payMethod = selectedMethod || order.paymentMethod || 'N/A';
   const changeDue = amountTendered ? parseFloat(amountTendered) - (order.totalAmount || 0) : null;
 
-  const handlePrint = () => {
-    const receiptEl = document.getElementById('print-receipt');
-    if (receiptEl) {
-      receiptEl.style.display = 'block';
-      window.print();
-      receiptEl.style.display = 'none';
-    }
-  };
-
-  // The actual receipt content (monospace, print-friendly)
-  const ReceiptContent = () => (
-    <div id="print-receipt" style={{ display: isModal ? 'block' : 'none', fontFamily: '"Courier New", Courier, monospace', width: '300px', margin: '0 auto', color: '#000', backgroundColor: '#fff', padding: '20px' }}>
+  return (
+    <div id="print-receipt" style={{ display: isModal ? 'block' : 'none', fontFamily: '"Courier New", Courier, monospace', width: '100%', maxWidth: '300px', margin: '0 auto', color: '#000', backgroundColor: '#fff', padding: '16px' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '15px' }}>
         <img src="/brew_haven_logo.png" alt="Brew Haven Logo" style={{ width: '60px', height: '60px', display: 'block', margin: '0 auto 10px auto' }} />
@@ -129,18 +119,31 @@ const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountT
       </div>
     </div>
   );
+};
+
+const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountTendered }) => {
+  if (!order) return null;
+
+  const handlePrint = () => {
+    const receiptEl = document.getElementById('print-receipt');
+    if (receiptEl) {
+      receiptEl.style.display = 'block';
+      window.print();
+      receiptEl.style.display = 'none';
+    }
+  };
 
   // ─── MODAL MODE (Admin Reports) ───
   if (isModal) {
     return (
-      <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+      <div id="receipt-modal-overlay" className="fixed inset-0 z-[300] flex items-center justify-center p-4">
         {/* Backdrop */}
         <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onClick={onClose}></div>
         
         {/* Modal Card */}
-        <div className="relative z-10 bg-white rounded-[2rem] shadow-2xl w-full max-w-sm max-h-[90vh] flex flex-col animate-slide-up overflow-hidden">
+        <div id="receipt-modal-card" className="relative z-10 bg-white rounded-[2rem] shadow-2xl w-full max-w-sm max-h-[90vh] flex flex-col animate-slide-up overflow-hidden">
           {/* Modal Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
+          <div id="receipt-modal-header" className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
             <div>
               <h3 className="text-lg font-black text-slate-800">Receipt</h3>
               <p className="text-xs text-slate-400 font-medium">Order {order.orderNumber}</p>
@@ -151,14 +154,14 @@ const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountT
           </div>
 
           {/* Scrollable Receipt Body */}
-          <div className="flex-1 overflow-y-auto p-6 bg-white">
-            <div className="bg-slate-50 rounded-2xl border border-slate-100 p-1 shadow-inner">
-              <ReceiptContent />
+          <div id="receipt-modal-body" className="flex-1 overflow-y-auto p-6 bg-white">
+            <div id="receipt-modal-inner" className="bg-slate-50 rounded-2xl border border-slate-100 p-1 shadow-inner">
+              <ReceiptContent order={order} isModal={isModal} selectedMethod={selectedMethod} amountTendered={amountTendered} />
             </div>
           </div>
 
           {/* Modal Footer */}
-          <div className="px-6 py-4 border-t border-slate-100 bg-white flex gap-3">
+          <div id="receipt-modal-footer" className="px-6 py-4 border-t border-slate-100 bg-white flex gap-3">
             <button
               onClick={handlePrint}
               className="flex-1 py-3 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-dark transition-all active:scale-95 shadow-lg shadow-primary/20"
@@ -179,7 +182,7 @@ const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountT
   }
 
   // ─── INLINE MODE (hidden for printing, used by customer flow & POS) ───
-  return <ReceiptContent />;
+  return <ReceiptContent order={order} isModal={isModal} selectedMethod={selectedMethod} amountTendered={amountTendered} />;
 };
 
 export default ReceiptModal;
