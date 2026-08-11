@@ -42,7 +42,10 @@ const Dashboard = () => {
       <div className="p-6">
         <h1 className="text-xl font-bold text-white flex items-center space-x-2">
           <img src="/brew_haven_logo.png" alt="Brew Haven" className="w-9 h-9 rounded-lg object-contain bg-white/10 p-0.5" />
-          <span className="tracking-widest uppercase text-sm">Brew Haven</span>
+          <span>
+            <span className="tracking-widest uppercase text-sm font-display block">Brew Haven</span>
+            <span className="text-[9px] tracking-[0.3em] uppercase text-primary-light font-bold">Premium Café</span>
+          </span>
         </h1>
       </div>
 

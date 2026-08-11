@@ -50,14 +50,16 @@ const CustomerTableSelect = () => {
       </header>
 
       {/* Main */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-xl animate-slide-up">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div className="absolute top-[15%] left-[50%] -translate-x-1/2 w-[520px] h-[520px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+        <div className="w-full max-w-xl animate-slide-up relative z-10">
           {/* Heading */}
           <div className="text-center mb-10">
             <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-5 border border-primary/20">
               <Users className="w-8 h-8 text-primary" />
             </div>
-            <h2 className="text-3xl font-black text-white mb-2">Where are you sitting?</h2>
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-primary-light mb-3">Choose your seat</p>
+            <h2 className="text-4xl font-black text-white mb-2 font-display">Where are you sitting?</h2>
             <p className="text-slate-400 font-medium">Select your table to begin ordering</p>
           </div>
 
@@ -121,7 +123,7 @@ const CustomerTableSelect = () => {
               <button
                 onClick={handleConfirm}
                 disabled={!selected}
-                className="w-full py-5 bg-primary text-white rounded-2xl font-black text-xl hover:bg-primary-dark transition-all active:scale-95 shadow-2xl shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
+                className="w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl font-black text-xl hover:brightness-110 transition-all active:scale-95 shadow-2xl shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 {selected ? `Sit at Table ${selected.number} →` : 'Select a Table First'}
               </button>

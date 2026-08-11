@@ -23,15 +23,15 @@ const FloorView = () => {
 
   const getTableStatusColor = (status) => {
     switch (status) {
-      case 'Available': return 'bg-white border-slate-200 text-slate-800 hover:border-primary/30';
-      case 'Occupied': return 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_30px_-5px_rgba(16,185,129,0.5)] scale-[1.02]';
+      case 'Available': return 'bg-white border-cream-dark text-slate-800 hover:border-primary/40 hover:shadow-[0_10px_30px_-12px_rgba(122,84,44,0.35)]';
+      case 'Occupied': return 'bg-gradient-to-br from-primary to-primary-dark border-primary text-white shadow-[0_0_30px_-5px_rgba(200,155,94,0.55)] scale-[1.02]';
       case 'Reserved': return 'bg-amber-400 border-amber-400 text-amber-900 shadow-[0_0_30px_-5px_rgba(251,191,36,0.5)]';
-      default: return 'bg-white border-slate-200';
+      default: return 'bg-white border-cream-dark';
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-cream flex flex-col">
       {/* POS Top Nav */}
       <header className="bg-secondary-dark text-slate-100 p-3 sm:p-4 flex items-center justify-between shadow-2xl relative z-10 border-b border-white/5">
         <div className="flex items-center space-x-3 sm:space-x-6">
@@ -83,11 +83,12 @@ const FloorView = () => {
       </header>
 
       {/* Floor Selector */}
-      <div className="p-4 sm:p-6 lg:p-8 flex-1">
+      <div className="p-4 sm:p-6 lg:p-8 flex-1 relative">
+        <div className="absolute top-10 right-0 w-[420px] h-[420px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
         {floors.map((floor) => (
-          <div key={floor._id} className="mb-8 sm:mb-12 animate-slide-up">
-            <h2 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 sm:mb-6 flex items-center space-x-3">
-               <span className="w-2 h-8 bg-primary rounded-full"></span>
+          <div key={floor._id} className="mb-8 sm:mb-12 animate-slide-up relative z-10">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 sm:mb-6 flex items-center space-x-3 font-display">
+               <span className="w-2 h-8 bg-gradient-to-b from-primary-light to-primary rounded-full"></span>
                <span>{floor.name}</span>
             </h2>
             

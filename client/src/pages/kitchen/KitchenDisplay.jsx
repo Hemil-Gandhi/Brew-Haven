@@ -112,9 +112,9 @@ const KitchenDisplay = () => {
   };
 
   return (
-    <div className="h-screen bg-slate-900 flex flex-col text-slate-100 overflow-hidden font-sans">
+    <div className="h-screen bg-secondary-dark flex flex-col text-slate-100 overflow-hidden font-sans">
       {/* Redesigned Navbar */}
-      <header className="px-3 sm:px-6 py-3 sm:py-4 bg-slate-800 border-b border-slate-700 shadow-2xl relative z-10">
+      <header className="px-3 sm:px-6 py-3 sm:py-4 bg-[#241A14] border-b border-secondary-light/30 shadow-2xl relative z-10">
         <div className="flex items-center justify-between mb-3 sm:mb-0">
           <div className="flex items-center space-x-2 sm:space-x-4">
              <button 

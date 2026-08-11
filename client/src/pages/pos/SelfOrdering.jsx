@@ -138,30 +138,30 @@ const SelfOrdering = () => {
 
   if (orderComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center p-6 text-center text-white">
+      <div className="min-h-screen bg-gradient-to-br from-[#3A2C21] via-[#1E1510] to-[#12100D] flex items-center justify-center p-6 text-center text-white">
          {/* Hidden receipt for printing */}
          {currentOrder && <ReceiptModal order={currentOrder} />}
          <div className="animate-slide-up max-w-sm w-full">
-            <div className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8 backdrop-blur-sm border border-white/30 shadow-2xl">
-              <CheckCircle className="w-16 h-16 drop-shadow-lg" />
+            <div className="w-32 h-32 bg-gradient-to-br from-primary-light to-primary rounded-full flex items-center justify-center mx-auto mb-8 backdrop-blur-sm border-4 border-primary-light/20 shadow-[0_0_80px_-15px_rgba(200,155,94,0.6)]">
+              <CheckCircle className="w-16 h-16 drop-shadow-lg text-white" />
             </div>
-            <h1 className="text-5xl font-black mb-3 tracking-tight">Order Placed!</h1>
-            <p className="text-emerald-50 mb-10 text-lg font-medium leading-relaxed max-w-xs mx-auto">
+            <h1 className="text-5xl font-black mb-3 tracking-tight font-display">Order Placed!</h1>
+            <p className="text-slate-300 mb-10 text-lg font-medium leading-relaxed max-w-xs mx-auto">
                Your order is being prepared by our kitchen team.
             </p>
-            <div className="bg-white/15 p-6 rounded-3xl border border-white/20 backdrop-blur-md mb-6">
-               <p className="text-xs font-black uppercase tracking-widest text-emerald-100 mb-1">
+            <div className="bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-md mb-6">
+               <p className="text-xs font-black uppercase tracking-widest text-primary-light mb-1">
                  {isTakeaway ? 'Order Number' : 'Your Table'}
                </p>
-               <p className="text-5xl font-black">{isTakeaway ? currentOrder?.orderNumber || '...' : (table?.number || tableId)}</p>
-               <p className="text-sm text-emerald-100 mt-2">
+               <p className="text-5xl font-black font-display">{isTakeaway ? currentOrder?.orderNumber || '...' : (table?.number || tableId)}</p>
+               <p className="text-sm text-slate-400 mt-2">
                  {isTakeaway ? 'Please wait at the counter' : 'We\'ll bring it right to you'}
                </p>
             </div>
             <div className="space-y-3">
               <button 
                 onClick={() => { setOrderComplete(false); }}
-                className="w-full px-8 py-4 bg-white text-emerald-600 rounded-2xl font-black shadow-2xl active:scale-95 transition-all text-lg"
+                className="w-full px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl font-black shadow-2xl active:scale-95 transition-all text-lg hover:brightness-110"
               >
                Order More Items
               </button>
@@ -170,7 +170,7 @@ const SelfOrdering = () => {
                   const el = document.getElementById('print-receipt');
                   if (el) { el.style.display = 'block'; window.print(); el.style.display = 'none'; }
                 }}
-                className="w-full px-8 py-4 bg-white/20 text-white rounded-2xl font-bold border border-white/30 active:scale-95 transition-all flex items-center justify-center gap-2 hover:bg-white/30"
+                className="w-full px-8 py-4 bg-white/10 text-white rounded-2xl font-bold border border-white/20 active:scale-95 transition-all flex items-center justify-center gap-2 hover:bg-white/20"
               >
                 <Printer className="w-5 h-5" />
                 Print Receipt
@@ -178,7 +178,7 @@ const SelfOrdering = () => {
               {currentOrder && (
                 <button 
                   onClick={() => navigate(`/bill/${currentOrder._id}`)}
-                  className="w-full px-8 py-4 bg-white text-emerald-700 rounded-2xl font-black shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-2"
+                  className="w-full px-8 py-4 bg-white text-secondary-dark rounded-2xl font-black shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-2 hover:bg-cream"
                 >
                   <FileText className="w-5 h-5" />
                   View / Download Full Bill
@@ -197,7 +197,7 @@ const SelfOrdering = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans max-w-lg mx-auto border-x border-slate-200 shadow-2xl relative">
+    <div className="min-h-screen bg-cream flex flex-col font-sans max-w-lg mx-auto border-x border-cream-dark shadow-2xl relative">
       {/* Premium Header */}
       <header className="p-5 bg-secondary-dark sticky top-0 z-20 border-b border-white/5 shadow-2xl">
          <div className="flex items-center justify-between mb-4">
@@ -285,7 +285,7 @@ const SelfOrdering = () => {
                   className="bg-white rounded-3xl border border-slate-100 shadow-sm text-left flex flex-col overflow-hidden active:scale-[0.97] transition-all group hover:shadow-lg hover:border-primary/20"
                 >
                    {/* Image area */}
-                   <div className="w-full aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center text-4xl relative overflow-hidden">
+                   <div className="w-full aspect-[4/3] bg-gradient-to-br from-cream to-cream-dark flex items-center justify-center text-4xl relative overflow-hidden">
                       {product.image ? (
                         <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                       ) : (
@@ -405,7 +405,7 @@ const SelfOrdering = () => {
                   <button 
                      onClick={() => { setShowCart(false); setPaymentMethod(null); setShowPayment(true); }}
                      disabled={cart.length === 0}
-                     className="w-full py-5 bg-slate-900 text-white rounded-[2rem] font-black text-lg hover:bg-primary transition-all active:scale-95 disabled:opacity-50 shadow-xl flex items-center justify-center space-x-3"
+                     className="w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-[2rem] font-black text-lg hover:brightness-110 transition-all active:scale-95 disabled:opacity-50 shadow-xl flex items-center justify-center space-x-3"
                   >
                      <ChefHat className="w-6 h-6" />
                      <span>Proceed to Payment</span>

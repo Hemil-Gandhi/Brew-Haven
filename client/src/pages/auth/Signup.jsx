@@ -47,9 +47,12 @@ const Signup = () => {
         </div>
 
         <div className="relative z-10 flex items-center space-x-3 justify-end text-right">
-           <span className="text-xl font-bold tracking-widest text-white uppercase origin-right">
-              Brew Haven
-           </span>
+           <div>
+              <span className="text-xl font-bold tracking-widest text-white uppercase origin-right font-display">
+                 Brew Haven
+              </span>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-primary-light font-bold mt-0.5">Premium Café & Restaurant</p>
+           </div>
            <img src="/brew_haven_logo.png" alt="Brew Haven" className="w-14 h-14 rounded-xl shadow-lg shadow-primary/20 object-contain bg-white/10 backdrop-blur-md border border-white/10 p-1" />
         </div>
 
@@ -66,9 +69,10 @@ const Signup = () => {
 
          <div className="w-full max-w-md relative z-10 animate-slide-up">
             <div className="mb-10 text-center lg:text-left">
-               <h1 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">Apply</h1>
-               <p className="text-slate-400 font-medium text-lg">
-                  Register for management access.
+               <p className="text-[10px] font-black uppercase tracking-[0.35em] text-primary-light mb-3">Join the Café</p>
+               <h1 className="text-5xl sm:text-6xl font-black text-white mb-4 tracking-tight">Create Account</h1>
+               <p className="text-slate-400 font-medium text-lg leading-relaxed">
+                  Register to power your staff with the Brew Haven experience.
                </p>
             </div>
 

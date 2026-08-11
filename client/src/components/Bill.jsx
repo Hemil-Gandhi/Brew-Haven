@@ -44,7 +44,7 @@ const BillPaper = ({ order }) => {
               B
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight uppercase leading-none">{BRAND.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-black tracking-tight uppercase leading-none font-display">{BRAND.name}</h1>
               <p className="text-[11px] text-slate-500 font-medium mt-0.5">{BRAND.tagline}</p>
             </div>
           </div>

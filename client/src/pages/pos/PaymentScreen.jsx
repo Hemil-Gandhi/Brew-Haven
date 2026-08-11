@@ -90,13 +90,13 @@ const PaymentScreen = () => {
 
   if (paymentSuccess) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#3A2C21] via-[#1E1510] to-[#12100D] flex items-center justify-center p-6 text-center">
          {order && <ReceiptModal order={order} selectedMethod={selectedMethod} amountTendered={amountTendered} />}
          <div className="max-w-md w-full animate-slide-up">
-            <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl animate-bounce">
+            <div className="w-24 h-24 bg-gradient-to-br from-primary-light to-primary rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl border-4 border-primary-light/20">
                <CheckCircle2 className="w-12 h-12 text-white" />
             </div>
-            <h1 className="text-4xl font-black text-white mb-2">Payment Success!</h1>
+            <h1 className="text-4xl font-black text-white mb-2 font-display">Payment Success!</h1>
             <p className="text-slate-400 mb-8">Order <span className="font-bold text-slate-300">{order?.orderNumber}</span> has been finalized.</p>
             
             {/* Receipt Summary Card */}
@@ -165,7 +165,7 @@ const PaymentScreen = () => {
 
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-cream flex flex-col">
       <header className="bg-white border-b border-slate-200 p-3 sm:p-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center space-x-3 sm:space-x-4">
           <button onClick={() => navigate(-1)} className="p-2 hover:bg-slate-100 rounded-full">

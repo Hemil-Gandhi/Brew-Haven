@@ -113,7 +113,7 @@ const OrderScreen = () => {
   const [showMobileCart, setShowMobileCart] = useState(false);
 
   return (
-    <div className="h-screen bg-slate-50 flex flex-col md:flex-row overflow-hidden">
+    <div className="h-screen bg-cream flex flex-col md:flex-row overflow-hidden">
       {/* Product Selection (Left/Main) */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="bg-secondary-dark border-b border-white/5 p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 text-slate-100 shadow-xl relative z-10">
@@ -176,7 +176,7 @@ const OrderScreen = () => {
               onClick={() => handleProductClick(product)}
               className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all flex flex-col text-left group animate-slide-up"
             >
-              <div className="w-full aspect-square bg-slate-50 rounded-2xl flex items-center justify-center mb-4 overflow-hidden">
+              <div className="w-full aspect-square bg-cream rounded-2xl flex items-center justify-center mb-4 overflow-hidden">
                  {product.image ? (
                    <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                  ) : (

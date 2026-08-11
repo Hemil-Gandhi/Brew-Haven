@@ -1,27 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brew Haven — Premium Cafe Palette */
-  --color-primary-light: #D4AF37; /* Warm Gold */
-  --color-primary: #B48F60;       /* Caramel/Gold */
-  --color-primary-dark: #8B6533;  /* Deep Antique Gold */
-  
-  --color-secondary-light: #4A3B32; /* Warm Slate */
-  --color-secondary: #2C241E;       /* Espresso */
-  --color-secondary-dark: #1A1510;  /* Midnight Coffee */
-  
-  --color-accent-light: #34d399;
-  --color-accent: #10b981;
-  --color-accent-dark: #059669;
+  /* Brew Haven — Premium Café Palette (warm roastery tones) */
+  --color-primary-light: #E7C37F; /* Champagne Gold */
+  --color-primary: #C89B5E;       /* Caramel */
+  --color-primary-dark: #9C6B35;  /* Antique Gold */
+
+  --color-secondary-light: #6B5543; /* Warm Taupe */
+  --color-secondary: #3A2C21;       /* Roasted Coffee */
+  --color-secondary-dark: #1E1510;  /* Dark Roast Espresso */
+
+  --color-accent-light: #5EE0B0;
+  --color-accent: #2BB98C;
+  --color-accent-dark: #1E946B;
+
+  --color-cream: #F7F1E6;      /* Cappuccino Foam */
+  --color-cream-dark: #EFE5D3; /* Latte */
+  --color-wood: #A87B48;       /* Oak Table */
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
 }
 
 :root {
-  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family: var(--font-sans);
+}
+
+html {
+  scrollbar-color: rgba(139, 101, 51, 0.35) transparent;
 }
 
 body {
-  font-family: var(--font-family);
-  @apply bg-slate-50 text-slate-900;
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: #2A2118;
+}
+
+/* Café menu-style serif headings */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: rgba(200, 155, 94, 0.35);
+  color: #1E1510;
 }
 
 /* Base Utility Classes */
@@ -33,9 +56,14 @@ body {
   @apply bg-secondary-dark/80 backdrop-blur-2xl border border-white/5 shadow-2xl;
 }
 
+/* Café cards */
+.card {
+  @apply bg-white border border-cream-dark rounded-2xl shadow-[0_1px_3px_rgba(62,44,26,0.06),0_8px_24px_-12px_rgba(62,44,26,0.18)];
+}
+
 /* Sleek Buttons */
 .btn-primary {
-  @apply px-4 py-2 bg-primary text-white rounded-xl shadow-[0_4px_14px_0_rgba(180,143,96,0.39)] hover:bg-primary-dark hover:shadow-[0_6px_20px_rgba(180,143,96,0.23)] transition-all duration-300 ease-out active:scale-[0.98] font-semibold tracking-wide;
+  @apply px-4 py-2 bg-primary text-white rounded-xl shadow-[0_4px_14px_0_rgba(200,155,94,0.4)] hover:bg-primary-dark hover:shadow-[0_6px_20px_rgba(200,155,94,0.25)] transition-all duration-300 ease-out active:scale-[0.98] font-semibold tracking-wide;
 }
 
 .btn-secondary {
@@ -43,15 +71,15 @@ body {
 }
 
 .btn-accent {
-  @apply px-4 py-2 bg-accent text-white rounded-xl shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:bg-accent-dark transition-all duration-300 ease-out active:scale-[0.98] font-semibold tracking-wide;
+  @apply px-4 py-2 bg-accent text-white rounded-xl shadow-[0_4px_14px_0_rgba(43,185,140,0.4)] hover:bg-accent-dark transition-all duration-300 ease-out active:scale-[0.98] font-semibold tracking-wide;
 }
 
 /* Premium Inputs */
 .input-field {
-  @apply w-full px-5 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none transition-all duration-300 shadow-sm text-slate-800 placeholder-slate-400;
+  @apply w-full px-5 py-3 bg-white/70 border border-cream-dark rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none transition-all duration-300 shadow-sm text-slate-800 placeholder-slate-400;
 }
 
-/* Custom Scrollbar for Sleek Interfaces */
+/* Warm scrollbars */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -60,11 +88,11 @@ body {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.3);
+  background-color: rgba(156, 116, 66, 0.35);
   border-radius: 20px;
 }
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.5);
+  background-color: rgba(156, 116, 66, 0.5);
 }
 
 .scrollbar-dark::-webkit-scrollbar-thumb {
