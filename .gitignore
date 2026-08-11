@@ -6,4 +6,3 @@ build/
 Thumbs.db
 server/.env
 client/.env*
-server/uploads/

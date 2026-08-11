@@ -176,11 +176,17 @@ const OrderScreen = () => {
               onClick={() => handleProductClick(product)}
               className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all flex flex-col text-left group animate-slide-up"
             >
-              <div className="w-full aspect-square bg-cream rounded-2xl flex items-center justify-center mb-4 overflow-hidden">
-                 {product.image ? (
-                   <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                 ) : (
+              <div className="w-full aspect-square bg-cream rounded-2xl relative mb-4 overflow-hidden">
+                 <div className="absolute inset-0 flex items-center justify-center">
                    <span className="text-4xl">{({'Coffee':'☕','Pastry':'🥐','Mains':'🍽️','Drinks':'🥤'})[product.category] || '🍴'}</span>
+                 </div>
+                 {product.image && (
+                   <img
+                     src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`}
+                     alt={product.name}
+                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                   />
                  )}
               </div>
               <p className="font-bold text-slate-800 line-clamp-1 group-hover:text-primary">{product.name}</p>
