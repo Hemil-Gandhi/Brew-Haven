@@ -81,7 +81,7 @@ const OrderScreen = () => {
       const order = await createOrder(orderData);
       alert('Order sent to kitchen!');
       navigate(`/pos/payment/${order._id}`);
-    } catch (error) {
+    } catch {
       alert('Error creating order');
     }
   };
@@ -100,12 +100,12 @@ const OrderScreen = () => {
           kitchenStatus: 'Completed' // Quick checkout skips kitchen
         })),
         totalAmount: cartTotal,
-        type: 'Takeaway',
+        type: 'Dine-in',
         sessionId: activeSession?._id
       };
       const order = await createOrder(orderData);
       navigate(`/pos/payment/${order._id}`);
-    } catch (error) {
+    } catch {
       alert('Error creating order');
     }
   };

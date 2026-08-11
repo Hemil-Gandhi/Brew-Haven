@@ -17,6 +17,7 @@ const CustomerDisplay = () => {
   // For demo, we'll just show the latest open order
   useEffect(() => {
     if (orders.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveOrder(orders[orders.length - 1]);
     }
   }, [orders]);
@@ -119,7 +120,7 @@ const CustomerDisplay = () => {
                  <div className="flex items-center space-x-1 sm:space-x-2">
                     <IndianRupee className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary font-black" />
                     <span className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-none">
-                       {activeOrder?.totalAmount.toFixed(2) || '0.00'}
+                       {activeOrder?.totalAmount ? activeOrder.totalAmount.toFixed(2) : '0.00'}
                     </span>
                  </div>
               </div>

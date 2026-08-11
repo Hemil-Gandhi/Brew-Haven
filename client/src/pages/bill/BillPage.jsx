@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import useAppStore from '../../store/useAppStore';
 import Bill from '../../components/Bill';
 import { ArrowLeft, LogOut, Loader2, AlertCircle } from 'lucide-react';
@@ -31,7 +31,8 @@ const BillPage = () => {
   }, [orderId]);
 
   const handleBack = () => {
-    if (user?.role === 'admin' || user?.role === 'staff') navigate('/backend');
+    if (!user) navigate('/');
+    else if (user.role === 'admin' || user.role === 'staff') navigate('/backend');
     else navigate('/customer/order-type');
   };
 
@@ -51,15 +52,19 @@ const BillPage = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="hidden sm:block text-xs text-white/60 font-medium">
-            {user?.name} · {user?.role}
-          </span>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold transition-all"
-          >
-            <Log2 className="w-4 h-4" /> <span className="hidden sm:inline">Sign Out</span>
-          </button>
+          {user && (
+            <>
+              <span className="hidden sm:block text-xs text-white/60 font-medium">
+                {user.name} · {user.role}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold transition-all"
+              >
+                <LogOut className="w-4 h-4" /> <span className="hidden sm:inline">Sign Out</span>
+              </button>
+            </>
+          )}
         </div>
       </header>
 

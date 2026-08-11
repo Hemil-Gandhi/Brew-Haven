@@ -127,9 +127,10 @@ const ReceiptModal = ({ order, isModal = false, onClose, selectedMethod, amountT
   const handlePrint = () => {
     const receiptEl = document.getElementById('print-receipt');
     if (receiptEl) {
+      const originalDisplay = receiptEl.style.display;
       receiptEl.style.display = 'block';
       window.print();
-      receiptEl.style.display = 'none';
+      receiptEl.style.display = originalDisplay;
     }
   };
 

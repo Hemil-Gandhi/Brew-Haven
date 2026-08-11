@@ -137,9 +137,11 @@ const FloorView = () => {
           <div className="h-full flex flex-col items-center justify-center text-slate-400">
              <Layers className="w-16 h-16 mb-4 opacity-10" />
              <p className="text-xl font-medium">No floors or tables configured.</p>
-             <button onClick={() => navigate('/backend/floors')} className="mt-4 text-primary font-bold hover:underline">
-                Go to Configuration
-             </button>
+             {user?.role === 'admin' && (
+               <button onClick={() => navigate('/backend/floors')} className="mt-4 text-primary font-bold hover:underline">
+                  Go to Configuration
+               </button>
+             )}
           </div>
         )}
       </div>

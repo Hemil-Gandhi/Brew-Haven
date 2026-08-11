@@ -127,7 +127,7 @@ const Login = () => {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="block text-xs font-bold uppercase tracking-widest text-slate-400">Password</label>
-                    <button type="button" className="text-xs font-bold text-primary hover:text-primary-light transition-colors">Forgot?</button>
+                    <button type="button" onClick={() => alert('Please contact your administrator to reset your password.')} className="text-xs font-bold text-primary hover:text-primary-light transition-colors">Forgot?</button>
                   </div>
                   <input
                     type="password"

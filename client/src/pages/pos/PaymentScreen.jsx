@@ -124,7 +124,7 @@ const PaymentScreen = () => {
                      <div className="flex justify-between items-end border-t border-white/10 pt-3">
                         <div>
                            <p className="text-[10px] text-slate-400 uppercase tracking-widest">Total Paid</p>
-                           <span className="text-3xl font-black text-white">₹{order?.totalAmount.toFixed(2)}</span>
+                           <span className="text-3xl font-black text-white">₹{(order?.totalAmount || 0).toFixed(2)}</span>
                         </div>
                         <span className="px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-xl text-sm font-bold border border-emerald-500/30">{selectedMethod}</span>
                      </div>
@@ -183,7 +183,7 @@ const PaymentScreen = () => {
          <div className="w-full lg:w-96 flex flex-col gap-4 lg:gap-6">
             <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl lg:rounded-[2rem] border border-slate-200 shadow-sm">
                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3 sm:mb-6">Order Total</p>
-               <h3 className="text-3xl sm:text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">₹{order?.totalAmount.toFixed(2)}</h3>
+               <h3 className="text-3xl sm:text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">₹{(order?.totalAmount || 0).toFixed(2)}</h3>
                
                <div className="mt-8 space-y-4">
                   {order?.items.map((item, i) => (
@@ -272,7 +272,7 @@ const PaymentScreen = () => {
                   <div className="flex-1 space-y-6 text-center md:text-left">
                      <h4 className="text-3xl font-black text-slate-800">Scan to Pay</h4>
                      <p className="text-slate-500 font-medium leading-relaxed">
-                        Customers can scan this QR code with any UPI app like GPay, PhonePe, or Paytm to complete the payment of <b>₹{order?.totalAmount.toFixed(2)}</b>.
+                        Customers can scan this QR code with any UPI app like GPay, PhonePe, or Paytm to complete the payment of <b>₹{(order?.totalAmount || 0).toFixed(2)}</b>.
                      </p>
                      <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 inline-block text-amber-700 font-bold text-sm">
                         Merchant: {upiId}

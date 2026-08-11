@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API_URL = `${BASE_URL}/api`;
 const socket = io(BASE_URL);
 
-const useAppStore = create((set, get) => ({
+const useAppStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
   token: localStorage.getItem('token') || null,
   products: [],
@@ -141,7 +141,7 @@ const useAppStore = create((set, get) => ({
     set({ activeSession: data });
   },
   closeSession: async (id, closingData) => {
-    const { data } = await axios.put(`${API_URL}/sessions/close/${id}`, closingData);
+    await axios.put(`${API_URL}/sessions/close/${id}`, closingData);
     set({ activeSession: null });
   },
 

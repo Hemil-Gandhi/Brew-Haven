@@ -37,7 +37,7 @@ const Dashboard = () => {
     { name: 'Reports', path: '/backend/reports', icon: BarChart3 },
   ];
 
-  const NavContent = () => (
+  const renderNavContent = () => (
     <>
       <div className="p-6">
         <h1 className="text-xl font-bold text-white flex items-center space-x-2">
@@ -94,7 +94,7 @@ const Dashboard = () => {
     <div className="flex h-screen bg-slate-50">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 bg-secondary-dark text-slate-300 flex-col shadow-2xl z-10">
-        <NavContent />
+        {renderNavContent()}
       </aside>
 
       {/* Mobile Sidebar Overlay */}
@@ -107,7 +107,7 @@ const Dashboard = () => {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <NavContent />
+            {renderNavContent()}
           </aside>
         </div>
       )}

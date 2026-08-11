@@ -49,8 +49,9 @@ const KitchenDisplay = () => {
   }, [fetchOrders]);
 
   useEffect(() => {
-    // Filter open orders for kitchen
-    setKitchenOrders(orders.filter(o => o.status === 'Open'));
+    // Keep open + completed orders so they stay visible until the board clears
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setKitchenOrders(orders.filter(o => o.status === 'Open' || o.status === 'Completed'));
   }, [orders]);
 
   const handleLogout = () => {
@@ -87,7 +88,7 @@ const KitchenDisplay = () => {
         updateData.status = 'Completed';
       }
       await updateOrderStatus(orderId, updateData);
-    } catch (error) {
+    } catch {
       console.error('Failed to update kitchen status');
     }
   };

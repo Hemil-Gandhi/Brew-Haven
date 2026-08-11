@@ -126,7 +126,7 @@ body {
 
 @page bill-page {
   size: A4;
-  margin: 8mm;
+  margin: 0;
 }
 
 /* ===== PROFESSIONAL RECEIPT PRINT STYLES ===== */

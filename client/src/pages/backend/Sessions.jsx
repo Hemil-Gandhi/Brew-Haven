@@ -3,7 +3,7 @@ import useAppStore, { socket } from '../../store/useAppStore';
 import { History, Play, CheckCircle2, IndianRupee, Calendar, User } from 'lucide-react';
 
 const Sessions = () => {
-  const { activeSession, sessions, fetchActiveSession, getSessions, openSession, closeSession, orders, fetchOrders } = useAppStore();
+  const { activeSession, sessions, fetchActiveSession, getSessions, openSession, closeSession, orders, fetchOrders, user } = useAppStore();
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [openingBalance, setOpeningBalance] = useState(0);
 
@@ -29,10 +29,9 @@ const Sessions = () => {
 
   const handleOpenSession = async (e) => {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem('user'));
     await openSession({
       terminalId: 'TERM-01',
-      staffId: user.id,
+      staffId: user?.id,
       openingBalance
     });
     setShowOpenModal(false);

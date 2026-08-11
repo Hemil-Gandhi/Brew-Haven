@@ -112,11 +112,7 @@ function App() {
           </CustomerRoute>
         } />
         
-        <Route path="/bill/:orderId" element={
-          <CustomerRoute>
-            <BillPage />
-          </CustomerRoute>
-        } />
+        <Route path="/bill/:orderId" element={<BillPage />} />
         
         <Route path="/" element={<IndexRoute />} />
       </Routes>
