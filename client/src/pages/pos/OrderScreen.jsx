@@ -54,6 +54,7 @@ const OrderScreen = () => {
   const cartTotal = cartSubtotal + cartTax;
 
   const handleProductClick = (product) => {
+    if (product.stock === 0) return; // out of stock — cannot order
     if (product.variants && product.variants.length > 0) {
       setSelectedProduct(product);
     } else {
@@ -170,11 +171,14 @@ const OrderScreen = () => {
 
         {/* Product Grid */}
         <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
-          {filteredProducts.map(product => (
+          {filteredProducts.map(product => {
+            const isOutOfStock = product.stock === 0;
+            return (
             <button
               key={product._id}
               onClick={() => handleProductClick(product)}
-              className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all flex flex-col text-left group animate-slide-up"
+              disabled={isOutOfStock}
+              className={`bg-white p-4 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all flex flex-col text-left group animate-slide-up ${isOutOfStock ? 'opacity-60 cursor-not-allowed' : ''}`}
             >
               <div className="w-full aspect-square bg-cream rounded-2xl relative mb-4 overflow-hidden">
                  <div className="absolute inset-0 flex items-center justify-center">
@@ -188,6 +192,11 @@ const OrderScreen = () => {
                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                    />
                  )}
+                 {isOutOfStock && (
+                   <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center">
+                     <span className="px-3 py-1.5 bg-secondary text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">Sold Out</span>
+                   </div>
+                 )}
               </div>
               <p className="font-bold text-slate-800 line-clamp-1 group-hover:text-primary">{product.name}</p>
               <p className="text-xs text-slate-400 font-medium mb-2">{product.category}</p>
@@ -198,7 +207,8 @@ const OrderScreen = () => {
                  </div>
               </div>
             </button>
-          ))}
+            );
+          })}
         </div>
       </div>
 

@@ -88,6 +88,7 @@ const SelfOrdering = () => {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleProductClick = (product) => {
+    if (product.stock === 0) return; // out of stock — cannot order
     if (product.variants && product.variants.length > 0) {
       setSelectedProduct(product);
     } else {
@@ -227,11 +228,13 @@ const SelfOrdering = () => {
 
   const renderProductCard = (product) => {
     const inCart = cart.find(c => c._id === product._id);
+    const isOutOfStock = product.stock === 0;
     return (
       <button 
         key={product._id} 
         onClick={() => handleProductClick(product)}
-        className="bg-white rounded-3xl border border-cream-dark shadow-sm text-left flex flex-col overflow-hidden active:scale-[0.97] transition-all group hover:shadow-lg hover:border-primary/30"
+        disabled={isOutOfStock}
+        className={`bg-white rounded-3xl border border-cream-dark shadow-sm text-left flex flex-col overflow-hidden active:scale-[0.97] transition-all group hover:shadow-lg hover:border-primary/30 ${isOutOfStock ? 'opacity-60 cursor-not-allowed' : ''}`}
       >
          {/* Image area */}
          <div className="w-full aspect-[4/3] bg-gradient-to-br from-cream to-cream-dark relative overflow-hidden">
@@ -246,10 +249,15 @@ const SelfOrdering = () => {
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             )}
-            {product.variants?.length > 0 && (
+            {isOutOfStock && (
+              <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center">
+                <span className="px-3 py-1.5 bg-secondary text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">Sold Out</span>
+              </div>
+            )}
+            {product.variants?.length > 0 && !isOutOfStock && (
               <span className="absolute top-2 right-2 bg-primary/90 text-white text-[9px] font-black px-2 py-0.5 rounded-full">OPTIONS</span>
             )}
-            {inCart && (
+            {inCart && !isOutOfStock && (
               <span className="absolute top-2 left-2 bg-emerald-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg">
                 {inCart.quantity}
               </span>

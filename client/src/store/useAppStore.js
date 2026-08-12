@@ -16,6 +16,9 @@ const useAppStore = create((set) => ({
   activeSession: null,
   sessions: [],
   cart: [],
+  inventory: [],
+  stockMovements: [],
+  inventorySummary: null,
 
   // Auth Actions
   login: async (email, password) => {
@@ -125,6 +128,44 @@ const useAppStore = create((set) => ({
     // socket.emit('update_order_status', data); // Removed: server now handles broadcast with full data
     set(state => ({ orders: state.orders.map(o => o._id === id ? data : o) }));
     return data;
+  },
+
+  // Inventory Actions
+  fetchInventory: async () => {
+    const { data } = await axios.get(`${API_URL}/inventory`);
+    set({ inventory: data });
+  },
+  fetchInventorySummary: async () => {
+    const { data } = await axios.get(`${API_URL}/inventory/summary`);
+    set({ inventorySummary: data });
+    return data;
+  },
+  createInventoryItem: async (itemData) => {
+    const { data } = await axios.post(`${API_URL}/inventory`, itemData);
+    set(state => ({ inventory: [data, ...state.inventory] }));
+    return data;
+  },
+  updateInventoryItem: async (id, itemData) => {
+    const { data } = await axios.put(`${API_URL}/inventory/${id}`, itemData);
+    set(state => ({ inventory: state.inventory.map(i => i._id === id ? data : i) }));
+    return data;
+  },
+  restockInventoryItem: async (id, restockData) => {
+    const { data } = await axios.put(`${API_URL}/inventory/${id}/restock`, restockData);
+    set(state => ({ inventory: state.inventory.map(i => i._id === id ? data : i) }));
+    return data;
+  },
+  deleteInventoryItem: async (id) => {
+    await axios.delete(`${API_URL}/inventory/${id}`);
+    set(state => ({ inventory: state.inventory.filter(i => i._id !== id) }));
+  },
+  syncInventoryProducts: async () => {
+    const { data } = await axios.post(`${API_URL}/inventory/sync-products`);
+    return data;
+  },
+  fetchStockMovements: async (limit = 50) => {
+    const { data } = await axios.get(`${API_URL}/inventory/movements?limit=${limit}`);
+    set({ stockMovements: data });
   },
 
   // Session Actions

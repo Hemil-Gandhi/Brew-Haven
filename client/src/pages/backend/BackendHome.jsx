@@ -9,7 +9,9 @@ import {
   ArrowUpRight,
   Clock,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  AlertTriangle,
+  ClipboardList
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 
@@ -33,12 +35,13 @@ const StatCard = ({ title, value, icon: Icon, trend, color, sub }) => (
 );
 
 const BackendHome = () => {
-  const { orders, fetchOrders, products, fetchProducts } = useAppStore();
+  const { orders, fetchOrders, products, fetchProducts, inventorySummary, fetchInventorySummary } = useAppStore();
 
   useEffect(() => {
     fetchOrders();
     fetchProducts();
-  }, [fetchOrders, fetchProducts]);
+    fetchInventorySummary();
+  }, [fetchOrders, fetchProducts, fetchInventorySummary]);
 
   const totalRevenue = orders
     .filter(o => o.paymentStatus === 'Paid')
@@ -90,6 +93,31 @@ const BackendHome = () => {
           sub="Active menu items"
         />
       </div>
+
+      {/* Low Stock Alert */}
+      {(inventorySummary?.lowStockCount > 0 || inventorySummary?.outOfStockCount > 0) && (
+        <Link
+          to="/backend/inventory"
+          className="flex items-center justify-between p-4 rounded-2xl bg-amber-50 border border-amber-200 hover:bg-amber-100 transition-colors"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-11 h-11 bg-amber-500 rounded-xl flex items-center justify-center">
+              <AlertTriangle className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <p className="font-bold text-amber-800">
+                {inventorySummary.outOfStockCount > 0
+                  ? `${inventorySummary.outOfStockCount} item(s) out of stock`
+                  : `${inventorySummary.lowStockCount} item(s) running low`}
+              </p>
+              <p className="text-xs text-amber-600">Check inventory & restock before it affects orders</p>
+            </div>
+          </div>
+          <span className="flex items-center text-sm font-bold text-amber-700">
+            <ClipboardList className="w-4 h-4 mr-1" /> Manage
+          </span>
+        </Link>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Orders */}
@@ -145,6 +173,7 @@ const BackendHome = () => {
           
           {[
             { label: 'Manage Products', desc: 'Add, edit, or remove menu items', path: '/backend/products', color: 'bg-primary/10 text-primary' },
+            { label: 'Inventory & Stock', desc: 'Track stock, restock, and supplies', path: '/backend/inventory', color: 'bg-sky-100 text-sky-700' },
             { label: 'Floor & Tables', desc: 'Configure your restaurant layout', path: '/backend/floors', color: 'bg-amber-100 text-amber-700' },
             { label: 'Sales Reports', desc: 'Export PDF & Excel reports', path: '/backend/reports', color: 'bg-emerald-100 text-emerald-700' },
             { label: 'POS Terminal', desc: 'Launch the floor plan view', path: '/pos/floor', color: 'bg-indigo-100 text-indigo-700' },

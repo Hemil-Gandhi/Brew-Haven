@@ -25,6 +25,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/pos-config', require('./routes/posConfigRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
+app.use('/api/inventory', require('./routes/inventoryRoutes'));
 app.use('/api/sessions', require('./routes/sessionRoutes'));
 
 // Socket.io for Real-time Kitchen Display

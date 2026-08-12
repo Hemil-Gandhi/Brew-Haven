@@ -1,5 +1,6 @@
 const Order = require('../models/Order');
 const Table = require('../models/Table');
+const { applyOrderDeduction } = require('./inventoryController');
 
 exports.createOrder = async (req, res) => {
   try {
@@ -19,7 +20,14 @@ exports.createOrder = async (req, res) => {
     });
     
     await order.save();
-    
+
+    // Reduce inventory stock for the ordered items (best-effort)
+    try {
+      await applyOrderDeduction(items, order._id);
+    } catch (err) {
+      console.error('Inventory deduction error:', err.message);
+    }
+
     if (tableId) {
       const updatedTable = await Table.findByIdAndUpdate(tableId, { status: 'Occupied' }, { new: true });
       req.app.get('io').emit('table_updated', updatedTable);

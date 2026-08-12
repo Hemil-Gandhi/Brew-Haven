@@ -10,7 +10,8 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  X
+  X,
+  ClipboardList
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 
@@ -21,6 +22,7 @@ import Tables from './Tables';
 import Sessions from './Sessions';
 import Reports from './Reports';
 import BackendHome from './BackendHome';
+import Inventory from './Inventory';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -31,6 +33,7 @@ const Dashboard = () => {
   const navItems = [
     { name: 'Overview', path: '/backend', icon: LayoutDashboard },
     { name: 'Products', path: '/backend/products', icon: Package },
+    { name: 'Inventory', path: '/backend/inventory', icon: ClipboardList },
     { name: 'Floors', path: '/backend/floors', icon: Layers },
     { name: 'Tables', path: '/backend/tables', icon: TableIcon },
     { name: 'Sessions', path: '/backend/sessions', icon: History },
@@ -145,6 +148,7 @@ const Dashboard = () => {
           <Routes>
             <Route index element={<BackendHome />} />
             <Route path="products" element={<Products />} />
+            <Route path="inventory" element={<Inventory />} />
             <Route path="floors" element={<Floors />} />
             <Route path="tables" element={<Tables />} />
             <Route path="sessions" element={<Sessions />} />
