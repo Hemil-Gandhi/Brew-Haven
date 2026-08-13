@@ -316,11 +316,21 @@ const Products = () => {
                 </div>
                 
                 {formData.variants.map((variant, index) => (
-                  <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-3 animate-slide-up">
+                  <div key={index} className="bg-slate-50/60 border border-slate-100 rounded-2xl p-4 space-y-3 animate-slide-up">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Variant {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeVariant(index)}
+                        className="p-2 text-slate-400 hover:text-accent hover:bg-accent/10 rounded-lg transition-all"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                     <input
                       type="text"
                       placeholder="Variant Name (e.g. Large)"
-                      className="input-field flex-1 !py-4 !text-base"
+                      className="input-field w-full !py-4 !text-base"
                       value={variant.name}
                       onChange={(e) => {
                         const newVariants = [...formData.variants];
@@ -332,7 +342,7 @@ const Products = () => {
                       type="number"
                       step="0.01"
                       placeholder="Extra Price (₹)"
-                      className="input-field w-full sm:w-44 !py-4 !text-base"
+                      className="input-field w-full !py-4 !text-base"
                       value={variant.extraPrice}
                       onChange={(e) => {
                         const newVariants = [...formData.variants];
@@ -340,13 +350,6 @@ const Products = () => {
                         setFormData({ ...formData, variants: newVariants });
                       }}
                     />
-                    <button
-                      type="button"
-                      onClick={() => removeVariant(index)}
-                      className="p-3.5 text-slate-400 hover:text-accent hover:bg-accent/10 rounded-xl shrink-0 transition-all"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
                   </div>
                 ))}
               </div>
