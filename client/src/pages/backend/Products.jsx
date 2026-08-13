@@ -316,7 +316,7 @@ const Products = () => {
                 </div>
                 
                 {formData.variants.map((variant, index) => (
-                  <div key={index} className="flex items-center space-x-3 animate-slide-up">
+                  <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-3 animate-slide-up">
                     <input
                       type="text"
                       placeholder="Variant Name (e.g. Large)"
@@ -331,8 +331,8 @@ const Products = () => {
                     <input
                       type="number"
                       step="0.01"
-                      placeholder="Extra Price"
-                      className="input-field w-32"
+                      placeholder="Extra Price (₹)"
+                      className="input-field w-full sm:w-40"
                       value={variant.extraPrice}
                       onChange={(e) => {
                         const newVariants = [...formData.variants];
@@ -340,7 +340,11 @@ const Products = () => {
                         setFormData({ ...formData, variants: newVariants });
                       }}
                     />
-                    <button type="button" onClick={() => removeVariant(index)} className="p-2 text-slate-400 hover:text-accent">
+                    <button
+                      type="button"
+                      onClick={() => removeVariant(index)}
+                      className="p-3 text-slate-400 hover:text-accent hover:bg-accent/10 rounded-xl shrink-0 transition-all"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
