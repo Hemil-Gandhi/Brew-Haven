@@ -102,7 +102,7 @@ const CustomerTableSelect = () => {
                           {table.seats && (
                             <div className="flex gap-1">
                               {[...Array(Math.min(table.seats, 4))].map((_, i) => (
-                                <div key={i} className={`w-1.5 h-1.5 rounded-full ${selected?._id === table._id ? 'bg-white/60' : 'bg-slate-300'}`} />
+                                <div key={i} className={`w-1.5 h-1.5 rounded-full ${selected?._id === table._id ? 'bg-white' : 'bg-slate-600'}`} />
                               ))}
                             </div>
                           )}

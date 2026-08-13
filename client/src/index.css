@@ -139,6 +139,48 @@ h1, h2, h3, h4, h5 {
   animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Gentle floating for decorative blobs */
+@keyframes floatBlob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.08); }
+  66% { transform: translate(-25px, 25px) scale(0.95); }
+}
+
+.animate-float-blob {
+  animation: floatBlob 14s ease-in-out infinite;
+}
+
+.animate-float-blob-delay {
+  animation: floatBlob 18s ease-in-out 2s infinite reverse;
+}
+
+/* Soft shine sweep for CTA buttons */
+@keyframes shineSweep {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(220%) skewX(-20deg); }
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: shineSweep 3s ease-in-out infinite;
+}
+
+/* Fade up with stagger support */
+.animate-fade-in-up {
+  opacity: 0;
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Ensure minimum touch targets on mobile */
 @media (max-width: 640px) {
   button, a, [role="button"] {
