@@ -197,6 +197,11 @@ const OrderScreen = () => {
                      <span className="px-3 py-1.5 bg-secondary text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">Sold Out</span>
                    </div>
                  )}
+                 {!isOutOfStock && product.stock !== null && product.stock !== undefined && (
+                   <span className={`absolute bottom-2 right-2 text-[9px] font-black px-2 py-0.5 rounded-full shadow-sm ${product.lowStock ? 'bg-amber-400 text-amber-950' : 'bg-emerald-500 text-white'}`}>
+                     {product.stock} {product.stockUnit || 'left'}
+                   </span>
+                 )}
               </div>
               <p className="font-bold text-slate-800 line-clamp-1 group-hover:text-primary">{product.name}</p>
               <p className="text-xs text-slate-400 font-medium mb-2">{product.category}</p>

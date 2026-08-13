@@ -163,6 +163,10 @@ const useAppStore = create((set) => ({
     const { data } = await axios.post(`${API_URL}/inventory/sync-products`);
     return data;
   },
+  setInventoryMenuDefaults: async () => {
+    const { data } = await axios.put(`${API_URL}/inventory/set-menu-defaults`);
+    return data;
+  },
   fetchStockMovements: async (limit = 50) => {
     const { data } = await axios.get(`${API_URL}/inventory/movements?limit=${limit}`);
     set({ stockMovements: data });

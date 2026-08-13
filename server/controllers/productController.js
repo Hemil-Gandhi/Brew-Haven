@@ -1,6 +1,9 @@
 const Product = require('../models/Product');
 const Inventory = require('../models/Inventory');
 
+// Menu-linked stock entries start with this many units
+const DEFAULT_PRODUCT_QTY = 10;
+
 exports.getProducts = async (req, res) => {
   try {
     const [products, stocks] = await Promise.all([
@@ -46,7 +49,7 @@ exports.createProduct = async (req, res) => {
         name: product.name,
         type: 'Product',
         category: product.category || '',
-        quantity: 0,
+        quantity: DEFAULT_PRODUCT_QTY,
         unit: product.unit || 'unit',
         reorderLevel: 0,
         supplier: '',
@@ -78,6 +81,23 @@ exports.updateProduct = async (req, res) => {
     }
     
     const product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+    // Keep the linked stock entry in sync with menu details
+    try {
+      await Inventory.updateOne(
+        { productId: product._id },
+        {
+          $set: {
+            name: product.name,
+            category: product.category || '',
+            unit: product.unit || 'unit',
+          },
+        }
+      );
+    } catch (err) {
+      console.error('Inventory sync error:', err.message);
+    }
+
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

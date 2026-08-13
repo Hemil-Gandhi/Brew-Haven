@@ -2,6 +2,9 @@ const Inventory = require('../models/Inventory');
 const StockMovement = require('../models/StockMovement');
 const Product = require('../models/Product');
 
+// Menu-linked items start with this many units until the owner adjusts them
+const DEFAULT_PRODUCT_QTY = 10;
+
 // Record a stock movement entry
 const recordMovement = async (inventory, type, delta, note = '', orderId = null, user = '') => {
   try {
@@ -163,7 +166,7 @@ exports.syncProducts = async (req, res) => {
         name: p.name,
         type: 'Product',
         category: p.category || '',
-        quantity: 0,
+        quantity: DEFAULT_PRODUCT_QTY,
         unit: p.unit || 'unit',
         reorderLevel: 0,
         supplier: '',
@@ -173,7 +176,29 @@ exports.syncProducts = async (req, res) => {
       await item.save();
       created += 1;
     }
-    res.json({ message: `Synced menu products`, created });
+    res.json({ message: `Synced menu products`, created, defaultQuantity: DEFAULT_PRODUCT_QTY });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// Bulk-set every menu-linked item's quantity to the default (does not touch supplies)
+exports.setMenuDefaults = async (req, res) => {
+  try {
+    const result = await Inventory.updateMany(
+      { type: 'Product' },
+      { $set: { quantity: DEFAULT_PRODUCT_QTY } }
+    );
+    await StockMovement.create({
+      itemName: 'Bulk update',
+      type: 'adjustment',
+      delta: 0,
+      beforeQuantity: 0,
+      afterQuantity: DEFAULT_PRODUCT_QTY,
+      note: `Set all menu product stock to ${DEFAULT_PRODUCT_QTY} units`,
+      user: req.body?.user || '',
+    });
+    res.json({ message: `Set ${result.modifiedCount} menu item(s) to ${DEFAULT_PRODUCT_QTY} units`, modifiedCount: result.modifiedCount, defaultQuantity: DEFAULT_PRODUCT_QTY });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

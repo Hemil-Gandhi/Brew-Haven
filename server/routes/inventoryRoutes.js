@@ -8,6 +8,7 @@ const {
   restockItem,
   deleteItem,
   syncProducts,
+  setMenuDefaults,
   getMovements,
 } = require('../controllers/inventoryController');
 
@@ -15,6 +16,7 @@ const {
 router.get('/summary', getSummary);
 router.get('/movements', getMovements);
 router.post('/sync-products', syncProducts);
+router.put('/set-menu-defaults', setMenuDefaults);
 router.get('/', getInventory);
 router.post('/', createItem);
 router.put('/:id', updateItem);
