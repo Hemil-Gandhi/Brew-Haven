@@ -201,7 +201,7 @@ const Products = () => {
       {/* Product Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-2xl w-full max-w-3xl shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-10">
               <h3 className="text-xl font-bold text-slate-800">{editingProduct ? 'Edit Product' : 'New Product'}</h3>
               <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-50 rounded-full">
@@ -320,7 +320,7 @@ const Products = () => {
                     <input
                       type="text"
                       placeholder="Variant Name (e.g. Large)"
-                      className="input-field flex-1"
+                      className="input-field flex-1 !py-4 !text-base"
                       value={variant.name}
                       onChange={(e) => {
                         const newVariants = [...formData.variants];
@@ -332,7 +332,7 @@ const Products = () => {
                       type="number"
                       step="0.01"
                       placeholder="Extra Price (₹)"
-                      className="input-field w-full sm:w-40"
+                      className="input-field w-full sm:w-44 !py-4 !text-base"
                       value={variant.extraPrice}
                       onChange={(e) => {
                         const newVariants = [...formData.variants];
@@ -343,9 +343,9 @@ const Products = () => {
                     <button
                       type="button"
                       onClick={() => removeVariant(index)}
-                      className="p-3 text-slate-400 hover:text-accent hover:bg-accent/10 rounded-xl shrink-0 transition-all"
+                      className="p-3.5 text-slate-400 hover:text-accent hover:bg-accent/10 rounded-xl shrink-0 transition-all"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
                 ))}
