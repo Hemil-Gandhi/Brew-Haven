@@ -116,6 +116,7 @@ const SelfOrdering = () => {
         status: 'Open'
       };
       const created = await createOrder(orderData);
+      fetchProducts();
       setActiveOrderId(created._id);
       setOrderComplete(true);
       setShowCart(false);
@@ -256,11 +257,6 @@ const SelfOrdering = () => {
             )}
             {product.variants?.length > 0 && !isOutOfStock && (
               <span className="absolute top-2 right-2 bg-primary/90 text-white text-[9px] font-black px-2 py-0.5 rounded-full">OPTIONS</span>
-            )}
-            {!isOutOfStock && product.stock !== null && product.stock !== undefined && (
-              <span className={`absolute bottom-2 right-2 text-[9px] font-black px-2 py-0.5 rounded-full shadow-sm ${product.lowStock ? 'bg-amber-400 text-amber-950' : 'bg-emerald-500 text-white'}`}>
-                {product.stock} {product.stockUnit || 'left'}
-              </span>
             )}
             {inCart && !isOutOfStock && (
               <span className="absolute top-2 left-2 bg-emerald-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg">

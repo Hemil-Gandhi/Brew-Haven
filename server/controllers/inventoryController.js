@@ -27,8 +27,19 @@ const recordMovement = async (inventory, type, delta, note = '', orderId = null,
 
 exports.getInventory = async (req, res) => {
   try {
-    const items = await Inventory.find().sort({ type: 1, name: 1 });
-    res.json(items);
+    const [items, products] = await Promise.all([
+      Inventory.find().sort({ type: 1, name: 1 }),
+      Product.find(),
+    ]);
+    const priceMap = new Map(products.map(p => [String(p._id), Number(p.price) || 0]));
+    const result = items.map(item => {
+      const json = item.toJSON();
+      if (item.type === 'Product' && item.productId && priceMap.has(String(item.productId))) {
+        json.value = Number(json.quantity) * priceMap.get(String(item.productId));
+      }
+      return json;
+    });
+    res.json(result);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -36,10 +47,19 @@ exports.getInventory = async (req, res) => {
 
 exports.getSummary = async (req, res) => {
   try {
-    const items = await Inventory.find();
+    const [items, products] = await Promise.all([
+      Inventory.find(),
+      Product.find(),
+    ]);
+    const priceMap = new Map(products.map(p => [String(p._id), Number(p.price) || 0]));
     const lowStock = items.filter(i => i.isLowStock && i.quantity > 0);
     const outOfStock = items.filter(i => i.quantity <= 0);
-    const value = items.reduce((sum, i) => sum + Number(i.value || 0), 0);
+    const value = items.reduce((sum, i) => {
+      const price = i.type === 'Product' && i.productId && priceMap.has(String(i.productId))
+        ? priceMap.get(String(i.productId))
+        : Number(i.costPerUnit || 0);
+      return sum + Number(i.quantity || 0) * price;
+    }, 0);
     res.json({
       totalItems: items.length,
       productItems: items.filter(i => i.type === 'Product').length,

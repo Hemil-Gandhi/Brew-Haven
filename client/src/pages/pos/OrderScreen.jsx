@@ -80,6 +80,7 @@ const OrderScreen = () => {
         sessionId: activeSession?._id
       };
       const order = await createOrder(orderData);
+      fetchProducts();
       alert('Order sent to kitchen!');
       navigate(`/pos/payment/${order._id}`);
     } catch {
@@ -105,6 +106,7 @@ const OrderScreen = () => {
         sessionId: activeSession?._id
       };
       const order = await createOrder(orderData);
+      fetchProducts();
       navigate(`/pos/payment/${order._id}`);
     } catch {
       alert('Error creating order');

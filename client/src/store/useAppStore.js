@@ -193,6 +193,12 @@ const useAppStore = create((set) => ({
   // Cart Actions
   addToCart: (product, variant = null) => {
     set(state => {
+      const available = typeof product.stock === 'number' ? product.stock : null;
+      const inCartTotal = state.cart
+        .filter(c => c._id === product._id)
+        .reduce((sum, c) => sum + c.quantity, 0);
+      // Block adding past available stock (across all variants of the same product)
+      if (available !== null && inCartTotal >= available) return { cart: state.cart };
       const existing = state.cart.find(c => c._id === product._id && c.variant === variant?.name);
       if (existing) {
         return {
@@ -212,13 +218,23 @@ const useAppStore = create((set) => ({
     }));
   },
   updateCartQty: (productId, variantName, delta) => {
-    set(state => ({
-      cart: state.cart.map(c => 
-        (c._id === productId && c.variant === variantName) 
-        ? { ...c, quantity: Math.max(1, c.quantity + delta) } 
-        : c
-      )
-    }));
+    set(state => {
+      const line = state.cart.find(c => c._id === productId && c.variant === variantName);
+      if (!line) return { cart: state.cart };
+      const available = typeof line.stock === 'number' ? line.stock : null;
+      const inCartTotal = state.cart
+        .filter(c => c._id === productId)
+        .reduce((sum, c) => sum + c.quantity, 0);
+      const others = inCartTotal - line.quantity;
+      const maxAllowed = available !== null ? Math.max(0, available - others) : Infinity;
+      return {
+        cart: state.cart.map(c => 
+          (c._id === productId && c.variant === variantName) 
+          ? { ...c, quantity: Math.min(maxAllowed, Math.max(1, c.quantity + delta)) } 
+          : c
+        )
+      };
+    });
   },
 
   // Socket setup
